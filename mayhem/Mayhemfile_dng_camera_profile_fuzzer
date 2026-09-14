@@ -1,0 +1,14 @@
+project: savantenvs/dng_sdk
+target: dng_camera_profile_fuzzer-buggy-mhh-run-6
+# The owner/project half of the accumulation URI is PINNED to the Mayhem project SLUG
+# (savantenvs/dng-sdk), as on savantenvs/daw_json_link. $MAYHEM_PROJECT interpolates the CI --project,
+# which mcode-action derives from the GitHub repo name (dng_sdk, underscore); Mayhem slugifies '_' -> '-',
+# so the run lands in project 'dng-sdk' while the interpolated URI names 'dng_sdk' and the run-creation
+# testsuite ACL check aborts: "You do not have access to use a test suite from the project dng_sdk".
+# $MAYHEM_TARGET stays literal so each target keys its own tar.
+testsuite:
+  - https://$MAYHEM_DOMAIN/savantenvs/dng-sdk/$MAYHEM_TARGET/testsuite.tar
+  - file://mayhem/dng_camera_profile_fuzzer-buggy-mhh-run-6/testsuite
+cmds:
+  - cmd: /mayhem/dng_camera_profile_fuzzer
+    libfuzzer: true
